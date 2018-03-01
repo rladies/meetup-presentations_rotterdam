@@ -3,12 +3,15 @@
 This document is a register of the sessions held by R-Ladies Rotterdam
 
 ## Upcoming events
-1. Introduction to Anaconda
+* Introduction to Anaconda
     * Date: _TBA_
     * Presenter: [Elena He](https://github.com/mikanchu)
-2. Introduction to Bokeh
+* Introduction to Bokeh
     * Date: _TBA_
     * Presenter: [Elena He](https://github.com/mikanchu)
+* Introduction to Git
+    * Date: _TBA_
+    * Presented: [Elena He](https://github.com/mikanchu)
 
 ## Past events
 
