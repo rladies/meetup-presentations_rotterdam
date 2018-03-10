@@ -16,9 +16,12 @@ This document is a register of the sessions held by R-Ladies Rotterdam
 ## Past events
 
 1. First Meetup of the R-Ladies Rotterdam
-    1. Using R for my research. Model uses: Markdown & Shiny apps
+    1. Introduction R-Ladies Rotterdam
+        * Date: February 24th, 2018
+        * Presented by [Ingrid Szilagyi](https://twitter.com/infj_ingrid)
+    2. Using R for my research. Model uses: Markdown & Shiny apps
         * Date: February 24th, 2018
         * Presented by [Elrozy Andrinopoulou](https://github.com/erandrinopoulou)
-    2. How to use Blogdown
+    3. How to use Blogdown
         * Date: February 24th, 2018
         * Presented by [Brett Ory](http://www.brettory.com/)
