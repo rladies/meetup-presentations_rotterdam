@@ -7,10 +7,10 @@ This document is a register of the sessions held by R-Ladies Rotterdam
     * Date: _TBA_
     * Presenter: [Elena He](https://github.com/mikanchu)
 * Introduction to Bokeh
-    * Date: _TBA_
+    * Date: 17-11-2018 @ ErasmusMC
     * Presenter: [Elena He](https://github.com/mikanchu)
 * Introduction to Git
-    * Date: _TBA_
+    * Date: 15-12-2018 @ ErasmusMC
     * Presented: [Elena He](https://github.com/mikanchu)
 
 ## Past events
