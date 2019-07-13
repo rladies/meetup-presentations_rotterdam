@@ -16,25 +16,25 @@ This repository contains the materials used during the meetup events held by R-L
         * Presenter: [Elena He](https://github.com/mikanchu)
    2. Lightning talk: Table One package
         * Presenter: [Paloma Rojas](https://github.com/palolili23)
-        * Slides: 
+        * [Slides](https://github.com/rladies/meetup-presentations_rotterdam/tree/master/Introduction%20tableone) 
 
 3. Workshops:
     1. Intro to git:
-    * Presenter: [Elena He](https://github.com/mikanchu
-    * Slides: 
+        * Presenter: [Elena He](https://github.com/mikanchu)
+        * [Slides](https://github.com/rladies/meetup-presentations_rotterdam/tree/master/Introduction%20git)
     
     2. Dplyr package:
-    * Presenter: [Paloma Rojas](https://github.com/palolili23)
-    * Slides: 
+        * Presenter: [Paloma Rojas](https://github.com/palolili23)
+        * [Slides](https://github.com/rladies/meetup-presentations_rotterdam/tree/master/Introduction%20dplyr) 
 
 4. Tidyverse special edition: Workshop
     * Presenter: [Paloma Rojas](https://github.com/palolili23)
-    * Materials:
+    * [Materials](https://github.com/rladies/meetup-presentations_rotterdam/tree/master/Tidyverse%20special%20edition.%20Workshop)
     * Slides: https://rladiesrdm-tidyverse.netlify.com/#1
     
 5. Work happieR: A workshop on project oriented workflow in R:
     * Presenter: [Eline Krijkamp](https://github.com/krijkamp)
-    * Materials:
+    * [Materials](https://github.com/rladies/meetup-presentations_rotterdam/tree/master/Work%20happier%20-%20Project%20oriented%20workflow)
     * Slides: https://rladies-rdam-workhappier.netlify.com/#1
     
 6. How diversely do we read? Web scrapping in R
