@@ -1,0 +1,58 @@
+---
+title: "Report for the paper ..."
+output: word_document
+---
+
+# Statistical Analysis
+
+Continuous data are presented as mean±standard deviation while categorical variables as counts and percentages. Differences between groups were analyzed by the unpaired Student's t tests for continuous variables while.... To investigate the association between weight with sex, age and BMI, a linear regression was performed... A p-value <0.05 was considered statistically significant.
+
+```{r, echo=TRUE}
+library(lattice)
+library(knitr)
+
+set.seed(2015+5)
+patient <- c(1:200)
+height <- rnorm(200, 1.70, 0.1)
+weight <- height + rnorm(200, 60, 10)
+age <- rnorm(200, 60, 10)
+sex <- sample(1:2, 200, replace = T)
+sex <- factor(sex, levels = 1:2, labels = c("male", "female"))
+
+dat <- data.frame(patient, height, weight, sex, age)
+dat$BMI <- dat$weight/(dat$height^2)
+
+fm1 <- lm(weight ~ sex + BMI + age, data = dat)
+ 
+tab <- summary(fm1)$coefficients
+```
+
+```{r, echo=FALSE} 
+kable(tab, dig = 4)
+```
+
+## Predict weight for 2 male patients with min and max BMI at different ages
+```{r, echo=TRUE}
+newdata <- with(dat, data.frame(
+  sex = rep(1, each = 40),
+  age = rep(seq(min(dat$age), max(dat$age), length = 20), each = 2),
+  BMI = rep(c(min(dat$BMI), max(dat$BMI)), 20)
+))
+
+X <- model.matrix(~ sex + BMI + age, data = newdata)
+
+betas <- summary(fm1)$coefficients[, 1]
+newdata$pred <- c(X %*% betas)
+
+newdata$BMI <- factor(newdata$BMI, labels = c("min BMI","max BMI"))
+```
+
+```{r, echo=FALSE, include=TRUE}
+plot(dat$weight, dat$BMI, xlab = "weight", ylab = "BMI")
+```
+
+```{r, echo=FALSE}
+xyplot(pred ~ age | BMI, type = "l", lty = c(1, 2, 2), cex = 1.8,  col = 1, lwd = 2, main = "age vs weight per BMI group", xlab = "age", ylab = "weight", data = newdata)
+```
+
+

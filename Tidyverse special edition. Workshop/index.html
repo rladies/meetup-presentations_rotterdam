@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Tidyverse special Edition!</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Paloma Rojas S." />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/rladies.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/rladies-fonts.css" rel="stylesheet" />
+    <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+    <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Tidyverse special Edition!
+### Paloma Rojas S.
+
+---
+
+
+
+#Welcome to the tidyverse special edition workshop!
+
+.center[![Tidyverse](./tidyverse.png)]
+
+
+---
+#The workshop plan
+
+- Intro 
+
+- Importing and wrangling
+
+- Summarizing data
+
+- Reporting
+
+---
+# First, what is tidyverse??
+
+.center[![Tidyverse](./pic_tidyverse.png)]
+
+---
+
+#R base vs. tidyverse
+
+Base R:
+
+`starwars[starwars$height &lt;200 &amp; starwars$gender == "male",]`
+
+Tidyverse:
+
+`starwars %&gt;% 
+  filter(height &lt;200,
+         gender == "male")`
+
+Base R:
+
+`starwars_dt[, c("height_m") := .(height/100)]`
+
+`starwars_dt[, c("bmi") := .(mass/height_m^2)]`
+
+Tidyverse:
+
+`starwars %&gt;% 
+mutate(height_m = height/100,
+       bmi = mass/height_m^2)`
+       
+---
+
+#About tidyverse
+
+.pull-left[
+As a set of principles:
+
+- Human-centered
+
+- Consistent
+
+- Composable
+
+- Inclusive
+
+.footnote[https://principles.tidyverse.org/]
+]
+
+
+.pull-right[
+As a set of packages:
+
+- Domain oriented
+
+- Language-like interface
+
+- Data is the important scope
+]
+
+
+---
+
+background-image: url("https://gph.to/2P76mN8")
+background-position: 50% 50%
+
+# Hands on!
+
+`library(tidyverse)`
+---
+#About the data
+
+We will be using **Game of thrones** data, obtained from two different sources.
+
+- `got_char` has data the total of minutes and seconds per season for each character.
+(link: [https://github.com/Preetish/GoT_screen_time](https://github.com/Preetish/GoT_screen_time)).
+
+- `got_houses` has data on the House each character belongs to, and the gender. (link: [https://github.com/benkahle/bayesianGameofThrones](https://github.com/benkahle/bayesianGameofThrones)).
+
+
+Don't worry, we are not including data on who died **#nospoilers**
+
+---
+###1. Importing: **readr** package
+
+Importing `got_char`
+
+
+```r
+got_char &lt;- read_csv("./got_char.csv")
+head(got_char,3)
+```
+
+```
+## # A tibble: 3 x 8
+##   actor      season_1 season_2 season_3 season_4 season_5 season_6 season_7
+##   &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Jon Snow       54.8     33.8     36       42.5     49.2     52       70  
+## 2 Tyrion La~     52.8     65       50       47.8     44       34       43.5
+## 3 Daenerys ~     54       38.8     30.8     27.5     41.8     28.8     54.5
+```
+
+```r
+dim(got_char)
+```
+
+```
+## [1] 100   8
+```
+
+---
+
+Importing `got_houses`
+
+
+```r
+got_houses &lt;- read_csv("./got_houses.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   house_a = col_character(),
+##   house_b = col_character(),
+##   gender = col_double(),
+##   name = col_character()
+## )
+```
+
+```r
+head(got_houses, 3)
+```
+
+```
+## # A tibble: 3 x 4
+##   house_a         house_b gender name                   
+##   &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                  
+## 1 House Marbrand  &lt;NA&gt;         1 Addam Marbrand         
+## 2 House Frey      &lt;NA&gt;         1 Aegon Frey (Jinglebell)
+## 3 House Targaryen &lt;NA&gt;         1 Aegon Targaryen
+```
+
+```r
+dim(got_houses)
+```
+
+```
+## [1] 970   4
+```
+
+---
+
+###2. Merging the two datasets
+
+1. Pick identifier/key variables on each dataset.
+2. Choose how you want to merge: [Animated joins by @gadenbuie](https://github.com/gadenbuie/tidyexplain)
+
+.pull-left[
+- left_join
+- right_join
+- inner_join]
+.pull-right[
+- full_join
+- anti_join
+- semi-join]
+
+
+```r
+got_complete &lt;- got_char %&gt;% 
+  left_join(got_houses, by = c("actor" = "name"))
+
+head(got_complete, 3)
+```
+
+```
+## # A tibble: 3 x 11
+##   actor season_1 season_2 season_3 season_4 season_5 season_6 season_7
+##   &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Jon ~     54.8     33.8     36       42.5     49.2     52       70  
+## 2 Tyri~     52.8     65       50       47.8     44       34       43.5
+## 3 Daen~     54       38.8     30.8     27.5     41.8     28.8     54.5
+## # ... with 3 more variables: house_a &lt;chr&gt;, house_b &lt;chr&gt;, gender &lt;dbl&gt;
+```
+
+---
+### 1. Building the Top 10
+
+&lt;table class="table table-hover table-condensed table-responsive" style="font-size: 16px; width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+&lt;tr&gt;&lt;th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="3"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;TOP 10 Characters&lt;/div&gt;&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;font-weight: bold;color: white !important;background-color: #562457 !important;"&gt; Character &lt;/th&gt;
+   &lt;th style="text-align:right;font-weight: bold;color: white !important;background-color: #562457 !important;"&gt; Total acting time &lt;/th&gt;
+   &lt;th style="text-align:left;font-weight: bold;color: white !important;background-color: #562457 !important;"&gt; House &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Jon Snow &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 338.25 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Night's Watch &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Tyrion Lannister &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 337.00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; House Lannister &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Daenerys Targaryen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 276.00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; House Targaryen &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Sansa Stark &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 238.50 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; House Stark &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Cersei Lannister &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 236.00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; House Lannister &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Arya Stark &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 224.25 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; House Stark &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Jaime Lannister &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 199.00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; House Lannister &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Samwell Tarly &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 143.75 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Night's Watch &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Jorah Mormont &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 142.50 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; House Mormont &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;color: white !important;background-color: #88398A !important;border-right:1px solid;"&gt; Theon Greyjoy &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 136.25 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; House Greyjoy &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+---
+###**Mutate** function
+
+
+```r
+got_complete_rank  &lt;- got_complete %&gt;%
+  mutate(total = season_1 + season_2 + season_3 +
+           season_4 + season_5 + season_6 + season_7 )
+```
+
+---
+### Conditional terms using **Mutate**
+
+mutate/case_when
+
+```r
+got_complete_rank &lt;- got_complete_rank %&gt;% 
+  mutate(rank = case_when(
+    total &gt;= 200 ~ "Main cast",
+    total &lt;200 &amp; total &gt;= 50 ~ "Supporting cast",
+    total &lt;50 ~ "Extra"))
+```
+
+mutate/ifelse
+
+```r
+got_complete_rank  &lt;- got_complete_rank %&gt;%
+  mutate(house_a = ifelse(is.na(house_a), "Other", house_a))
+```
+
+---
+### **Arrange** function
+
+Ascending
+
+```r
+got_complete_rank &lt;- got_complete_rank %&gt;% 
+  arrange(total)
+```
+
+
+Descending
+
+
+```r
+got_complete_rank &lt;- got_complete_rank %&gt;% 
+  arrange(desc(total))
+```
+
+---
+### **Select** function
+
+
+```r
+top_ten&lt;- got_complete_rank%&gt;%
+  select(actor, total, house_a) 
+
+head(top_ten)
+```
+
+```
+## # A tibble: 6 x 3
+##   actor              total house_a        
+##   &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;          
+## 1 Jon Snow            338. Night's Watch  
+## 2 Tyrion Lannister    337  House Lannister
+## 3 Daenerys Targaryen  276  House Targaryen
+## 4 Sansa Stark         238. House Stark    
+## 5 Cersei Lannister    236  House Lannister
+## 6 Arya Stark          224. House Stark
+```
+Helpfull feats of `select`
+- starts_with("season")
+- ends_with("")
+- contains("hous")
+- matches(&lt;regex&gt;)
+- -house_b
+- -c(house_a, gender)
+- everything()
+
+---
+###**Rename** function
+
+
+```r
+top_ten&lt;- top_ten %&gt;% 
+  rename(Character = actor,
+         House = house_a,
+         `Total acting time` = total)
+```
+
+###**Slice** function
+
+
+```r
+top_ten &lt;- top_ten %&gt;% 
+  slice(1:10)
+```
+
+---
+
+
+```
+## # A tibble: 10 x 3
+##    Character          `Total acting time` House          
+##    &lt;chr&gt;                            &lt;dbl&gt; &lt;chr&gt;          
+##  1 Jon Snow                          338. Night's Watch  
+##  2 Tyrion Lannister                  337  House Lannister
+##  3 Daenerys Targaryen                276  House Targaryen
+##  4 Sansa Stark                       238. House Stark    
+##  5 Cersei Lannister                  236  House Lannister
+##  6 Arya Stark                        224. House Stark    
+##  7 Jaime Lannister                   199  House Lannister
+##  8 Samwell Tarly                     144. Night's Watch  
+##  9 Jorah Mormont                     142. House Mormont  
+## 10 Theon Greyjoy                     136. House Greyjoy
+```
+
+---
+###2. How is the gender distribution across houses?
+
+![](index_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+---
+### Let's start with a basic bar plot
+
+.pull-left[
+
+```r
+`got_complete_rank %&gt;% 
+  ggplot(aes(house_a)) +
+  geom_bar()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+]
+---
+### Now let's add add gender
+
+.pull-left[
+
+```r
+`got_complete_rank %&gt;% 
+  ggplot(aes(house_a, fill = gender)) +
+  geom_bar()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+]
+
+---
+### Let's change gender to the proper format
+.pull-left[
+
+```r
+got_complete_rank %&gt;% 
+mutate(gender = as.factor(gender)) %&gt;% 
+ggplot(aes(house_a, fill = gender)) +
+geom_bar()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+]
+---
+### Exclude NA's in gender
+.pull-left[
+
+```r
+got_complete_rank %&gt;% 
+filter(!is.na(gender)) %&gt;% 
+mutate(gender = as.factor(gender)) %&gt;% 
+ggplot(aes(house_a, fill = gender)) +
+geom_bar()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+]
+
+---
+### Flip the coords
+.pull-left[
+
+```r
+got_complete_rank %&gt;% 
+  mutate(gender = as.factor(gender)) %&gt;% 
+  ggplot(aes(house_a, fill= gender)) +
+  geom_bar() +
+  coord_flip()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+]
+
+---
+###Details count :)
+.pull-left[
+
+```r
+got_complete_rank %&gt;% 
+  filter(!is.na(gender)) %&gt;% 
+  mutate(gender = as.factor(gender)) %&gt;% 
+  ggplot(aes(house_a, fill= gender)) +
+  geom_bar() +
+  coord_flip() +
+  labs(title = "Distribution of gender across the houses",
+       x = "Number of characters",
+       y = "House",
+       fill = "Gender") +
+  theme_minimal() 
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+]
+
+---
+###3. How is the protagonism distribution across houses?
+
+![](index_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+
+---
+###3. How is the protagonism distribution across houses?
+
+
+```r
+got_complete_rank %&gt;% 
+  ggplot(aes(house_a, fill= rank)) +
+  geom_bar() +
+  coord_flip() +
+  labs(title = "Protagonism across the houses",
+       x = "Number of characters",
+       y = "House",
+       fill = "Protagonism") +
+  theme_minimal() 
+```
+---
+###4.How is the distribution of total time per gender
+
+![](index_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+---
+###Steps:
+
+- filter NA in gender
+- change gender as 1 = "Male", 0 = "Female" (hint = ifelse)
+- use `geom_histogram()`
+- to split graphs for gender, use: `facet_wrap(.~gender)`
+
+---
+### Final code
+
+```r
+got_complete_rank%&gt;% 
+  filter(!is.na(gender)) %&gt;% 
+  mutate(gender = ifelse(gender == 1, "Male", "Female")) %&gt;% 
+  ggplot(aes(total)) +
+  geom_histogram() +
+  facet_wrap(.~gender) +
+  labs(title = "Total time of acting across the 7 seasons, by gender",
+       x = "Time (min)",
+       y = "Number of characters") +
+  theme_minimal()
+```
+---
+###5. How was the evolution of the protagonists across seasons?
+
+![](index_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+---
+
+### Gather (from wide to long)
+
+
+```r
+got_long &lt;- got_complete %&gt;% 
+  select(-house_b) %&gt;% 
+  gather(variable, time, season_1:season_7, -c(actor, house_a, gender))
+
+head(got_long)
+```
+
+```
+## # A tibble: 6 x 5
+##   actor              house_a         gender variable  time
+##   &lt;chr&gt;              &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;
+## 1 Jon Snow           Night's Watch        1 season_1  54.8
+## 2 Tyrion Lannister   House Lannister      1 season_1  52.8
+## 3 Daenerys Targaryen House Targaryen      0 season_1  54  
+## 4 Sansa Stark        House Stark          0 season_1  24  
+## 5 Cersei Lannister   House Lannister      0 season_1  28  
+## 6 Arya Stark         House Stark          0 season_1  33.5
+```
+
+
+---
+### Split the variable, and arrange
+
+
+```r
+got_long &lt;- got_long %&gt;% 
+  separate(variable, c("variable", "season"))
+  
+head(got_long)
+```
+
+```
+## # A tibble: 6 x 6
+##   actor              house_a         gender variable season  time
+##   &lt;chr&gt;              &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;dbl&gt;
+## 1 Jon Snow           Night's Watch        1 season   1       54.8
+## 2 Tyrion Lannister   House Lannister      1 season   1       52.8
+## 3 Daenerys Targaryen House Targaryen      0 season   1       54  
+## 4 Sansa Stark        House Stark          0 season   1       24  
+## 5 Cersei Lannister   House Lannister      0 season   1       28  
+## 6 Arya Stark         House Stark          0 season   1       33.5
+```
+
+---
+### A few more changes
+
+
+```r
+got_long &lt;- got_long %&gt;% 
+  filter(time &gt;0) %&gt;% 
+  select(-c(variable)) %&gt;% 
+    arrange(actor)
+
+head(got_long)
+```
+
+```
+## # A tibble: 6 x 5
+##   actor          house_a       gender season  time
+##   &lt;chr&gt;          &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 Alliser Thorne Night's Watch      1 1       6.75
+## 2 Alliser Thorne Night's Watch      1 4       9.25
+## 3 Alliser Thorne Night's Watch      1 5       5.75
+## 4 Alliser Thorne Night's Watch      1 6       4.25
+## 5 Arya Stark     House Stark        0 1      33.5 
+## 6 Arya Stark     House Stark        0 2      38.8
+```
+---
+### **Group_by** and **Summarize**
+
+
+```r
+got_long %&gt;% 
+  group_by(actor) %&gt;% 
+  summarize(total = sum(time),
+            max = max(time)) %&gt;% 
+  head()
+```
+
+```
+## # A tibble: 6 x 3
+##   actor            total   max
+##   &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alliser Thorne    26    9.25
+## 2 Arya Stark       224.  38.8 
+## 3 Balon Greyjoy     12.2  6.5 
+## 4 Barristan Selmy   37.2 13.5 
+## 5 Benjen Stark      12.8  6.25
+## 6 Beric Dondarrion  25   13.8
+```
+---
+###**Group** -&gt; **Mutate** -&gt; **Ungroup**
+
+
+```r
+got_long &lt;- got_long %&gt;% 
+  group_by(actor) %&gt;% 
+  mutate (total = sum(time)) %&gt;% 
+  ungroup ()
+
+got_long %&gt;% head(4)
+```
+
+```
+## # A tibble: 4 x 6
+##   actor          house_a       gender season  time total
+##   &lt;chr&gt;          &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 Alliser Thorne Night's Watch      1 1       6.75    26
+## 2 Alliser Thorne Night's Watch      1 4       9.25    26
+## 3 Alliser Thorne Night's Watch      1 5       5.75    26
+## 4 Alliser Thorne Night's Watch      1 6       4.25    26
+```
+
+---
+###Back to the graph
+
+![](index_files/figure-html/unnamed-chunk-37-1.png)&lt;!-- --&gt;
+
+---
+###Basic plot
+.pull-left[
+
+```r
+got_long %&gt;% 
+  ggplot(aes(season, time))+
+  geom_point() + 
+  geom_line()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-39-1.png)&lt;!-- --&gt;
+]
+
+---
+###Basic plot by actors
+.pull-left[
+
+```r
+got_long %&gt;% 
+  ggplot(aes(season, time, group = actor))+
+  geom_point() + 
+  geom_line()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-41-1.png)&lt;!-- --&gt;
+]
+---
+###Filter the top ten (&gt;130min)
+.pull-left[
+
+```r
+got_long %&gt;% 
+  filter(total &gt;130) %&gt;% 
+  ggplot(aes(season, time, group = actor))+
+  geom_point() + 
+  geom_line()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-43-1.png)&lt;!-- --&gt;
+]
+
+---
+###Add a color!
+.pull-left[
+
+```r
+got_long %&gt;% 
+  filter(total &gt;130) %&gt;% 
+  ggplot(aes(season, time, group = actor, color = actor))+
+  geom_point() + 
+  geom_line()
+```
+  ]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-45-1.png)&lt;!-- --&gt;
+]
+---
+### Details
+
+
+```r
+got_long %&gt;% 
+  filter(total &gt;130) %&gt;% 
+  ggplot(aes(season, time, group = actor, color = actor)) +
+  geom_point() +
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Evolution of the protagonists across seasons",
+       x = "Season",
+       y = "Total time (min)",
+       color = "Protagonist") +
+  theme_minimal()
+```
+  ]
+
+---
+###Final graph
+
+![](index_files/figure-html/unnamed-chunk-47-1.png)&lt;!-- --&gt;
+---
+
+background-image: url("https://gph.to/2GrDSdk")
+background-position: 50% 50%
+
+# We did it!
+
+---
+# Useful resources
+
+Learn tidyverse:
+
+https://r4ds.had.co.nz/
+
+Join the R4DS and Tidy-tuesday community
+
+https://thomasmock.netlify.com/post/tidytuesday-a-weekly-social-data-project-in-r/
+
+Get the dplyr cheatsheet
+
+https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
+
+Slides created via the R package **Xaringan** , using **Rladies** template 
+
+https://github.com/yihui/xaringan
+---
+name: title
+class: center, middle
+#Thank you!!!#
+
+
+###Keep in touch!
+<i class="fas  fa-paper-plane " style="color:#011A5E;"></i>&lt;/i&gt;&amp;nbsp;paloma@rladies.org&lt;/a&gt;&lt;br&gt;
+
+<i class="fab  fa-twitter " style="color:#011A5E;"></i> &lt;a href="http://twitter.com/palolili23"&gt; &lt;/i&gt;&amp;nbsp; @palolili23&lt;/a&gt;&lt;br&gt;
+
+<i class="fab  fa-github " style="color:#011A5E;"></i> &lt;a href="http://twitter.com/palolili23"&gt; &lt;/i&gt;&amp;nbsp; @palolili23&lt;/a&gt;&lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"seal": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

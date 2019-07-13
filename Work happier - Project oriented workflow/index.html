@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Work HappieR</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Eline Krijkamp - @ekrijkamp" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/rladies.css" rel="stylesheet" />
+    <link href="libs/remark-css/rladies-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Work HappieR
+## A workshop on project-oriented workflow in R
+### Eline Krijkamp - <span class="citation">@ekrijkamp</span>
+### Erasmus MC, Rotterdam - DARTH workgroup
+### 2019/06/06
+
+---
+
+
+
+
+
+#Welcome
+
+--
+
+Are you familiar with problems setting the working directory?
+
+Did you ever had to re-run your code to produce results or graphs?
+
+Do you ever have to work with both data, a script and a report?
+
+Did you ever opened your own work and got lost in your own files?
+
+Do you want to make your code, research or product useful for others? Or for future self?
+
+--
+
+# Ok, good you are here!
+
+---
+class: inverse, center, middle
+
+# Aim: 
+##learn how to maximize effectiveness, reduce frustration, facilitate collaboration and increase readability of your work
+
+
+
+---
+#DARTH workgroup, thank you! 
+### This workshop is based on a paper written by the [DARTH](http://darthworkgroup.com) workgroup 
+‘A coding framework for improving transparency in decision modeling’ - (under revision)
+
+.center[![DARTH](./figs/slides/darth-logo-small.png)]
+
+<i class="fab  fa-twitter " style="color:#011A5E;"></i> &lt;a href="http://twitter.com/darthworkgroup"&gt; &lt;/i&gt;&amp;nbsp; @DARTHworkgroup&lt;/a&gt;&lt;br&gt;
+
+---
+# The workshop structure
+
+- Introduction 
+
+- How most people currently work
+
+- How you can do better
+
+- Get some hands-on experience
+
+- Closing
+
+---
+class: inverse, center, middle
+
+# Introduction 
+
+
+---
+
+
+
+class: inverse, center, middle
+
+# How most&lt;sup&gt;*&lt;/sup&gt; people currently work
+(&lt;sup&gt;*&lt;/sup&gt;includes me)
+
+---
+
+# Specialized software
+Most of us use **many different software programs** and do not have a **clear**, **concise** and **consistent** file storage structure.
+
+--
+
+For example, I used:
+- **MS Word** for manuscripts
+- **MS Excel** for data collection
+- **MS PowerPoint** for presentations and figures
+- **Adobe Illustrator**, **Adobe InDesign** and **MS PowerPoint** for figures and posters
+- **R** for data analysis
+- **SPSS** or **STATA** for data analysis with others
+- **TreeAge** for decision models
+- ...
+
+--
+
+and I saved it without a clear naming convention or folder structure.
+
+--
+
+# Result?
+
+---
+
+background-image: url("./figs/slides/File structure Eline dates.png")
+background-size: contain
+background-position: 100% 30%
+class: left, upper, inverse
+
+# Uhm??
+## Right!
+---
+
+background-image: url("./figs/slides/Dropbox_404error.png")
+background-size: 500px
+background-position: 50% 70%
+class: center, upper
+
+# Consequence
+
+.footnote[
+Image from [Dropbox](https://www.dropboxforum.com/t5/Sharing-and-collaboration/Video-won-t-play-when-shared/td-p/247437/page/3)
+]
+
+---
+
+class: inverse, center, middle
+
+# Does this sound familiar?
+
+---
+
+# Streamline your work using R
+
+## You can use R for
+- Data synthesis
+- Data analysis
+- Reporting
+- Presenting
+
+--
+
+R has the potential to facilitate **transparency**, **reproducibility**, and **shareability**
+
+But this all comes with a **very steep learning curve** which can cause a lot of frustration.
+
+--
+
+###Let's see how we can maximize effectiveness, reduce frustration, facilitate collaboration and increase readability of your work.
+
+
+---
+
+class: inverse, center, middle
+
+# How you can do better 
+
+*"If you spend too much time thinking about a thing, you'll never get it done"* - Bruce Lee
+
+**But in this case spending a little time upfront can save a lot of time later on**
+
+---
+# Apply a structure
+
+#### Cooper N, Hsing P-Y, editors. A Guide to Reproducible Code in Ecology and Evolution. London, UK: British Ecology Society; 2017.
+*"The way we do science is changing — `data are getting bigger`, analyses are getting more complex, and governments, funding agencies and the scientific method itself `demand more transparency` and `accountability in research`. One way to deal with these changes is to `make our research more reproducible`, `especially our code`. Although most of us now write code to perform our analyses, it is often not very reproducible. We have all come back to a piece of work we have not looked at for a while and had `no idea what our code was doing or which of the many "final_analysis" scripts truly was the final analysis!` Unfortunately, the number of tools for reproducibility and all the jargon can leave new users feeling overwhelmed, with no idea how to start making their code more reproducible. So, we have put together `this guide` to help."* 
+
+.footnote[More about file organization: Data Management:File Organization - Christine Malinowski - MITLibraries - January 21, 2016. [link](https://libraries.mit.edu/data-management/files/2014/05/FileOrg_20160121.pdf)]
+
+---
+
+# File system
+
+*"There is no single best way to organise a file system. The key is to make sure that the structure of directories and location of files are consistent, informative and works for you."* [1]
+
+.footnote[
+[1] Cooper N, Hsing P-Y, editors. A Guide to Reproducible Code in Ecology and Evolution. London, UK: British Ecology Society; 2017.]
+--
+
+Different fields, but our projects have similar elements: 
+- collecting data
+- data cleaning
+- analysis 
+- reporting results
+
+---
+# Good project directory structure example:
+- `data`        - all input data (and metadata) used in the analysis 
+- `functions`   - for functions to help us modify the data
+- `R`           - where interactive files for the analysis are stored 
+- `figs`        - for the figures
+- `tables`      - for the tables
+- `output`      - any type of intermediate or output files
+- *you might prefer an extra `cleaned-data` folder*
+- `report`      - for the RMarkdown manuscript or report of results
+
+---
+background-image: url("./figs/slides/Final.doc-PhD.gif")
+background-size: contain
+background-position: 50% 50%
+class: left, upper, inverse
+
+---
+
+# File naming conventions
+.center[![DARTH](./figs/slides/filenames-examples.png)]
+
+.footnote[Figure copied from Cooper N, Hsing P-Y, editors. A Guide to Reproducible Code in Ecology and Evolution. London, UK: British Ecology Society; 2017.]
+
+---
+
+class: inverse, center, middle
+
+# Get some hands-on experience
+"The secret of getting ahead is getting started" - Mark Twain
+---
+
+# Preparation
+You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rstudio/), but you do not have to.
+
+You can download the files for this workshop on the [Rladies Rotterdam Meetup page](https://www.meetup.com/nl-NL/rladies-rotterdam/events/261613889/)
+
+---
+background-image: url("./figs/slides/business-man-presenting-graph.png")
+background-size: contain
+background-position: 100% 80%
+class: left, upper, inverse
+
+# Case - Sales report 
+
+---
+# Case - Sales report 
+### We are asked to report the sales of some widgets for different countries weekly
+
+.footnote[
+Example used from [satRdays Paris](https://github.com/satRdays/paris2019?files=1)
+]
+
+.pull-left[
+### We need to deliver:
+- A report including a summary table, some country specific graphs and an interpretation of some numbers. 
+]
+
+.pull-right[
+### We get:
+- .csv files containing the sales data
+]
+
+--
+
+## How to approach this?
+
+---
+# Suggested approach 
+
+- Start with a R-project 
+
+- Create a folder structure
+
+- Save the data files in the data folder 
+
+- Load the data into your R environment 
+
+- Draft code for the data analysis 
+
+- Create a Markdown to finalize the analysis and to build the report
+
+---
+# R projects
+Embrace a one folder = one project mentality. Rstudio's `R projects` are excellent for encouraging this. This habit enables easy communication with others. 
+
+Solves your struggles with setting the working directory. 
+
+
+`File -&gt; New Project -&gt; New Directory -&gt; New project -&gt; Directory name and location -&gt; Create Project` 
+
+.footnote[More about R projects [R studio link](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects) and [R for Data Science - Garrett Grolemund and Hadley Wickham](https://r4ds.had.co.nz/workflow-projects.html)]
+
+--
+## Please create your own project
+
+
+
+---
+
+# Folder structure 
+
+.pull-left[
+Folders we need for sure:
+- `data`        for the .csv files 
+- `output`      for the modified data or combined data
+- `figs`        for the figures
+- `R`           where interactive files for the analysis are stored 
+- `report`      for the manuscript
+]
+
+.pull-right[
+*Maybe we also need*:
+- `functions`   for functions to help us modify the data
+- `tables`      for the tables
+]
+
+--
+
+#### Our case example is much simpler than most other projects and is highly stylistic. Therefore, we don't need all folders, to organize it clear and concise. However, since our aim is to get a structure that is useful for detailed projects we will apply it to this simple example.
+
+--
+## Let's make the folders
+
+---
+# Organize files
+
+We got three data files and two R scripts:
+- (1) sales_summary.csv, (2) france.csv and (3) sales.csv
+- `app0_packages-setup.R` and `app0_library-setup.R`
+
+Save these files in the right folder.
+
+### Create a new R script
+- `Files -&gt; New File -&gt; R Scrip`
+- give it an appropriate name 
+- save it in the right folder
+
+---
+# Organize files (2)
+
+### Embed the packages setup - only once 
+
+
+```r
+source("R/app0_packages-setup.R") # install required packages
+```
+
+### Load the packages into the library 
+
+```r
+source("R/app0_library-setup.R") # activated the needed libraries
+```
+
+---
+# Data 
+.footnote[
+Example used from [satRdays Paris](https://github.com/satRdays/paris2019?files=1)
+]
+### Load the data into R
+
+```r
+# Load the data from the csv files and store in the R environment
+sales_summary   &lt;- read.csv("data/sales_summary.csv") 
+sales_france    &lt;- read.csv("data/france.csv")
+sales_countries &lt;- read.csv("data/sales_countries.csv")
+```
+
+--
+
+### Explore data
+
+```r
+# Get a describtion of our data frames
+summary(sales_summary)   # total sales for 10 widgets
+summary(sales_france)    # daily widget sales (A-D) for France
+summary(sales_countries) # daily widget sales (A-D) for South Africa, UK and US
+```
+
+---
+
+#Data (2) - Combine
+
+
+```r
+sales &lt;- rbind(sales_countries, sales_france) # combine two dataframes
+summary(sales) # provide a summary
+```
+
+```
+##          date      country_code         country_name  widget  
+##  2018-01-01:  16   GBR:1460     South Africa  :1460   A:1460  
+##  2018-01-02:  16   USA:1460     United Kingdom:1460   B:1460  
+##  2018-01-03:  16   ZAF:1460     United States :1460   C:1460  
+##  2018-01-04:  16   FRA:1460     France        :1460   D:1460  
+##  2018-01-05:  16                                              
+##  2018-01-06:  16                                              
+##  (Other)   :5744                                              
+##      count      
+##  Min.   :    0  
+##  1st Qu.:   69  
+##  Median :  669  
+##  Mean   : 3125  
+##  3rd Qu.: 6046  
+##  Max.   :20990  
+## 
+```
+
+---
+
+#Data (3) - Combine
+
+```r
+str(sales) # inspect the structure of the data
+```
+
+```
+## 'data.frame':	5840 obs. of  5 variables:
+##  $ date        : Factor w/ 365 levels "2018-01-01","2018-01-02",..: 1 2 3 4 5 6 7 8 9 10 ...
+##  $ country_code: Factor w/ 4 levels "GBR","USA","ZAF",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ country_name: Factor w/ 4 levels "South Africa",..: 2 2 2 2 2 2 2 2 2 2 ...
+##  $ widget      : Factor w/ 4 levels "A","B","C","D": 1 1 1 1 1 1 1 1 1 1 ...
+##  $ count       : int  462 665 511 538 631 567 548 556 539 566 ...
+```
+
+```r
+# Mutate the date into a date format
+sales &lt;- sales %&gt;%
+  mutate(date = as.Date(date))
+
+save(sales, file = "output/sales.RData") # export combined data
+```
+
+---
+
+## Sales summary Table
+
+Below is a table with the total number of units sold per product.
+
+&lt;table&gt;
+&lt;caption&gt;Total units sold per product&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; widget &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; count &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 622834 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19160224 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12953168 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; D &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3009661 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; E &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 976581 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6518578 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; G &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 814076 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; H &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6061455 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; I &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3004799 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; J &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2429823 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+This the code you need to get this table
+
+```r
+knitr::kable(sales_summary, format = 'html', 
+             caption = 'Total units sold per product')
+```
+
+
+---
+## Sales summary Chart
+
+Here is a chart with the same data.
+
+```r
+# Plot a bar chart of total sales per product.
+ggplot(sales_summary, aes(x = widget, y = count / 1000000)) +
+  geom_col(fill = "#3498db") +
+  labs(x = "product", y = "units sold / million") +
+  ggtitle("Total units sold")
+```
+
+![](index_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+```r
+ggsave("figs/Fig1_sales-Chart.png") # save the figure
+```
+
+---
+# Report weekly sales
+
+
+```r
+# modify the data 
+sales_weekly &lt;- sales %&gt;%
+  mutate(
+    week_number = isoweek(date),
+    dow = wday(date)
+    ) %&gt;%
+  group_by(week_number, widget, country_name, country_code) %&gt;%
+  summarise(
+    date = min(date),
+    count = sum(count)
+  )
+
+head(sales_weekly)
+```
+
+```
+## # A tibble: 6 x 6
+## # Groups:   week_number, widget, country_name [6]
+##   week_number widget country_name   country_code date       count
+##         &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;          &lt;fct&gt;        &lt;date&gt;     &lt;int&gt;
+## 1           1 A      South Africa   ZAF          2018-01-01  1131
+## 2           1 A      United Kingdom GBR          2018-01-01  5139
+## 3           1 A      United States  USA          2018-01-01   119
+## 4           1 A      France         FRA          2018-01-01  2094
+## 5           1 B      South Africa   ZAF          2018-01-01 71116
+## 6           1 B      United Kingdom GBR          2018-01-01 68336
+```
+
+```r
+save(sales_weekly, file = "output/sales_weekly.RData") # store the new data
+```
+
+---
+# Best week per country
+
+```r
+# Modify the data to select the best week per country
+sales_weekly_best &lt;- sales_weekly %&gt;%
+  group_by(country_name, week_number) %&gt;%
+  summarise(count = sum(count)) %&gt;%
+  arrange(desc(count)) %&gt;%
+  slice(1)
+
+# Create a table
+knitr::kable(sales_weekly_best, format = 'html', caption = 'Best week for each county')
+```
+
+&lt;table&gt;
+&lt;caption&gt;Best week for each county&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; country_name &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; week_number &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; count &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; South Africa &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 129175 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; United Kingdom &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 303328 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; United States &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11712 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; France &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 51 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60858 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+# Write a function 
+## to plot weekly sales per country
+
+
+```r
+# Write a function 
+PlotWeeklySalesPerCountry &lt;- function(country_value) {
+  sales_weekly %&gt;% 
+  filter(country_code == country_value) %&gt;% 
+
+# plot 
+ggplot(aes(x = date, y = count / 1000)) +
+  geom_line(aes(colour = widget)) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b") +
+  scale_y_log10() +
+  labs(x = "", y = "Units / thousand") +
+  ggtitle(("Weekly Sales for:"), paste(country_value))
+  }
+```
+
+Save this as an `.R` script in the functions folder. 
+
+---
+# Create weekly sales graph
+
+```r
+country_value &lt;- "USA"
+PlotWeeklySalesPerCountry(country_value = "USA")  
+```
+
+![](index_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+
+### Try for other countries
+
+---
+# Markdown 
+### We need to report these graphs more often. Therefore, we will create a report that we can automatically updated.
+
+- To create a new R Markdown document from the menu go to `File -&gt; New File -&gt; R Markdown -&gt; Document -&gt;` Give it a title and author name `-&gt; ok`. 
+
+- Please note, your file is not save in a folder yet. Save your `.Rmd` file in the right folder
+
+--
+- We can modify the template to have a report we like;
+
+- Click the `Knit` button to compile it. 
+
+
+---
+# R Markdown - set up
+
+The R Markdown template starts with a general set up
+
+```yaml
+---
+title: "My Markdown file"
+author: "Eline Krijkamp"
+date: "1-6-2019"
+output: html_document 
+---
+```
+
+--
+### Add data to the report 
+
+```r
+This is the sales report generated at `r strftime(Sys.time(), "%H:%M %Z %d %B %Y")`. 
+```
+This is the sales report generated at 16:03 CEST 06 June 2019.
+
+
+.footnote[See the help page `?markdown` to learn more.]
+
+
+---
+#Markdown (2)
+
+Add sections for the plots and figures as a report. 
+
+You only want the client to see the output, not the code. Therefore, we don't want to have all the code in the Markdown but integrate the different files. 
+
+- `app0_library-setup.R`
+- `data-cleaning.R`
+- `graph-functions.R`
+
+
+
+
+
+---
+# Closing
+
+### "The process, not the final achievement is what it's all about" - **Dean Koonts**
+
+So let's make this process `HappieR`, by:
+
+- Using R projects [1]
+- Think about the structure of your work
+- Apply the recommendations in small steps 
+- Even with small steps we move to a more transparent world
+- *"Partially reproducible research is much better than completely non-reproducible research."* [2]
+
+
+.footnote[
+[1] [R for Data Science - Garrett Grolemund and Hadley Wickham](https://r4ds.had.co.nz/workflow-projects.html)
+
+[2] Cooper N, Hsing P-Y, editors. A Guide to Reproducible Code in Ecology and Evolution. London, UK: British Ecology Society; 2017.
+]
+
+
+---
+class: center, middle
+
+# A big thanks to
+[**R-Ladies Rotterdam**](https://www.meetup.com/rladies-rotterdam/), 
+[**42 workspace**](https://www.42workspace.com) &amp; 
+[**DARTH workgroup**](http://darthworkgroup.com)
+[**satRdays Paris 2019**](https://github.com/satRdays/paris2019?files=1)
+
+And especially **Paloma** for all her tips, tricks and help with this workshop.
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+*(Ps: This was my first time and I love it!)*
+
+---
+name: title
+class: center, middle
+#Thank you!!!#
+
+
+### Keep in touch!
+<i class="fas  fa-paper-plane " style="color:#011A5E;"></i>&lt;/i&gt;&amp;nbsp;e.krijkamp@erasmusmc.nl&lt;/a&gt;&lt;br&gt;
+
+<i class="fab  fa-twitter " style="color:#011A5E;"></i> &lt;a href="http://twitter.com/ekrijkamp"&gt; &lt;/i&gt;&amp;nbsp; @ekrijkamp&lt;/a&gt;&lt;br&gt;
+
+<i class="fab  fa-github " style="color:#011A5E;"></i> &lt;a href="http://github.com/krijkamp"&gt; &lt;/i&gt;&amp;nbsp; @krijkamp&lt;/a&gt;&lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"seal": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
