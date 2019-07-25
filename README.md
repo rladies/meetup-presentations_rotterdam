@@ -32,4 +32,4 @@ This repository contains the materials used during the meetup events held by R-L
     * Slides: https://rladies-rdam-workhappier.netlify.com/#1
     
 6. July 2019. How diversely do we read? Web scrapping in R
-    * Presenter: [Kate Saunders](https://github.com/katerobsau) / [Materials](https://github.com/rladies/meetup-presentations_rotterdam/tree/master/How%20diversely%20do%20we%20read)
+    * Presented by [Kate Saunders](https://github.com/katerobsau) / [Materials](https://github.com/rladies/meetup-presentations_rotterdam/tree/master/How%20diversely%20do%20we%20read)
